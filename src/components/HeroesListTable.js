@@ -78,20 +78,21 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-// Main function
-
 const EnhancedTable = (props) => {
   const [open, setOpen] = React.useState(false);
+  const [selectedHero, setSelectedHero] = React.useState('');
 
-  const handleClickOpen = (index) => {
-    console.log(index);
+  const handleClickOpen = (id) => {
+    const hero = props.data.results.find((hero) => hero.id === id);
+    setSelectedHero(hero);
     setOpen(true);
   };
+
+  console.log('hero', selectedHero)
+
   const handleClose = () => {
     setOpen(false);
   };
-
-  console.log(props.data);
 
   return (
     <>
@@ -111,34 +112,34 @@ const EnhancedTable = (props) => {
               </TableHead>
               <TableBody>
                 {props.data?.results &&
-                  props.data.results.map((row) => (
+                  props.data.results.map((row, hero) => (
                     <>
-                      <StyledTableRow key={row.id} onClick={() => handleClickOpen(row)}>
+                      <StyledTableRow key={`row-key${row.id}`} onClick={() => handleClickOpen(row.id)}>
                         <StyledTableCell component="th" scope="row">
                           {row.id}
                         </StyledTableCell>
                         <StyledTableCell align="left">{row.name}</StyledTableCell>
                         <StyledTableCell align="right">{row.status}</StyledTableCell>
                       </StyledTableRow>
+
                       <BootstrapDialog
-                        key={row.id}
+                        key={`hero-key${selectedHero.id}`}
                         onClose={handleClose}
                         aria-labelledby="customized-dialog-title"
                         open={open}
+                      // hero={selectedHero}
                       >
                         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                          {row.name}
+                          {selectedHero.name}
                         </BootstrapDialogTitle>
                         <DialogContent dividers>
                           <Typography gutterBottom>
-                            {row.status}
+                            {selectedHero.status}
                           </Typography>
                           <Typography gutterBottom>
-                            {row.species}
+                            {selectedHero.species}
                           </Typography>
-                          <Typography gutterBottom>
-                            <img src={row.image}></img>
-                          </Typography>
+                          <Box><img src={selectedHero.image}></img></Box>
                         </DialogContent>
                       </BootstrapDialog>
                     </>

@@ -4,13 +4,12 @@ import HttpFetchEpisodes from "../hooks/HttpFetchEpisodes";
 import EpisodesEnhancedTable from "../components/EpisodesListTable";
 
 const EpisodesComponent = () => {
-    const [page, setPage] = useState(1);
-
-    const { data, loading } = HttpFetchEpisodes(`episode?page=${page}`);
+    const [page, setPage] = useState(0);
+    const rowsPerPage = 20;
+    const offSet = page * rowsPerPage;
+    const { data, loading } = HttpFetchEpisodes(`episode?page=${offSet / 20 + 1}`);
 
     const handleChangePage = (event, newPage) => {
-        console.log('event', event);
-        console.log('new page', newPage)
         setPage(newPage);
     };
 

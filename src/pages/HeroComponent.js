@@ -4,12 +4,12 @@ import HttpFetchHeroes from "../hooks/HttpFetchHeroes";
 import EnhancedTable from '../components/HeroesListTable';
 
 const HttpHeroComponent = () => {
-    const [page, setPage] = useState(1);
-    const { data, loading } = HttpFetchHeroes(`character?page=${page}`);
+    const [page, setPage] = useState(0);
+    const rowsPerPage = 20;
+    const offSet = page * rowsPerPage;
+    const { data, loading } = HttpFetchHeroes(`character?page=${offSet / 20 + 1}`);
 
     const handleChangePage = (event, newPage) => {
-        console.log('event', event);
-        console.log('new page', newPage)
         setPage(newPage);
     };
 
@@ -18,7 +18,8 @@ const HttpHeroComponent = () => {
     return <div className="Main-div">
         <div>
             {loading ? <p>Loading...</p> :
-                <EnhancedTable data={data}
+                <EnhancedTable
+                    data={data}
                     count={data.info.count}
                     rowsPerPage={data.results.length}
                     page={page}

@@ -10,6 +10,18 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import { createTheme } from '@mui/material/styles';
+
+// const theme = createTheme({
+  
+//     palette: {
+//       primary: teal,
+//       secondary: teal,
+//     },
+  
+// });
+
+
 // Зебра
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,16 +47,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 // Main function
 
 const EpisodesEnhancedTable = (props) => {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = (index) => {
-    console.log(index);
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   console.log(props.data);
 
   return (
@@ -66,15 +68,13 @@ const EpisodesEnhancedTable = (props) => {
               <TableBody>
                 {props.data?.results &&
                   props.data.results.map((row) => (
-                    <>
-                      <StyledTableRow key={row.id} onClick={() => handleClickOpen(row)}>
+                      <StyledTableRow key={row.id}>
                         <StyledTableCell component="th" scope="row">
                           {row.id}
                         </StyledTableCell>
                         <StyledTableCell align="left">{row.name}</StyledTableCell>
                         <StyledTableCell align="right">{row.air_date}</StyledTableCell>
                       </StyledTableRow>  
-                    </>
                   ))}
               </TableBody>
             </Table>
